@@ -1,0 +1,304 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={TP1 : 1 echantillon},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{TP1 : 1 echantillon}
+\author{}
+\date{\vspace{-2.5em}2024-09-24}
+
+\begin{document}
+\maketitle
+
+\hypertarget{fonctions-r-utiles-pour-ce-tp}{%
+\section{Fonctions R utiles pour ce TP
+:}\label{fonctions-r-utiles-pour-ce-tp}}
+
+Dans ce TP, vous aurez besoin des fonctions suivantes pour réaliser les
+tests statistiques :
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{t.test()}} : Effectue un test de Student pour comparer
+  une moyenne observée à une moyenne théorique.
+\item
+  \textbf{\texttt{power.t.test()}} : Calcule la puissance d'un test de
+  Student
+\item
+  \textbf{\texttt{binom.test()}} : Réalise un test exact sur le
+  paramètre d'une loi de Bernoulli (utile pour tester une proportion).
+\item
+  \textbf{\texttt{prop.test()}} : Effectue un test approximatif (via une
+  approximation normale) sur le paramètre d'une loi de Bernoulli.
+\end{itemize}
+
+\hypertarget{pour-ruxe9aliser-les-tests-uxe0-la-main-vous-aurez-uxe9galement-besoin-des-fonctions-suivantes}{%
+\subsubsection{Pour réaliser les tests ``à la main'', vous aurez
+également besoin des fonctions suivantes
+:}\label{pour-ruxe9aliser-les-tests-uxe0-la-main-vous-aurez-uxe9galement-besoin-des-fonctions-suivantes}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{pt(x,\ n)}} : Renvoie la probabilité qu'une variable
+  de Student à \(n\) degrés de liberté soit inférieure à \(t = x\).
+  Utile pour calculer la p-value lors d'un test t.
+\item
+  \textbf{\texttt{qt(alpha,\ n)}} : Renvoie le quantile \(\alpha\) pour
+  une loi de Student à \(n\) degrés de liberté. Utile pour trouver la
+  valeur critique dans un test t.
+\end{itemize}
+
+\hypertarget{conseil}{%
+\subsubsection{Conseil :}\label{conseil}}
+
+N'hésitez pas à consulter l'aide de ces fonctions avec \texttt{?t.test},
+\texttt{?power.t.test}, \texttt{?binom.test}, etc., pour en savoir plus
+sur leur utilisation et leurs options.
+
+\hypertarget{ligue-1}{%
+\section{Ligue 1:}\label{ligue-1}}
+
+Nous avons une base de données nommée ligue1\_2425 qui donne les
+résultats des matchs de la saison 2024-2025 de la Ligue 1. À ce jour, 5
+journées ont eu lieu (chaque équipe a donc joué 5 matchs).
+
+La base de données contient 4 colonnes :
+
+\begin{itemize}
+\tightlist
+\item
+  Dom (l'équipe jouant à domicile),
+\item
+  Dom\_but (nombre de buts marqués par l'équipe à domicile),
+\item
+  Ext (l'équipe jouant à l'extérieur),
+\item
+  Ext\_but (nombre de buts marqués par l'équipe à l'extérieur).
+\end{itemize}
+
+\hypertarget{nombre-de-but-psg}{%
+\subsection{Nombre de but (PSG)}\label{nombre-de-but-psg}}
+
+L'entraîneur du PSG pense que son équipe est devenue significativement
+meilleure que la saison dernière et qu'à partir du début de cette saison
+(août 2024), elle marquera en moyenne plus de buts par match de Ligue 1.
+
+L'année dernière, le PSG avait marqué en moyenne 2.38 buts par match.
+Pour l'instant, nous n'avons que les résultats des 5 premières journées
+de Ligue 1, ce qui correspond à 5 matchs du PSG.
+
+Soit \(X_i\) le nombre de buts marqués par le PSG pendant le match de la
+journée \(i\). Nous supposons que les \(X_i\) sont i.i.d (indépendants
+et identiquement distribués), avec \(E(X_i) = \mu\) et
+\(V(X_i) = \sigma^2\).
+
+\hypertarget{mieux-que-lannuxe9e-derniuxe8re}{%
+\subsubsection{Mieux que l'année dernière
+?}\label{mieux-que-lannuxe9e-derniuxe8re}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Représentez graphiquement le nombre de buts marqués par le PSG au
+  cours de ses matchs de Ligue 1.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# lire le fichier de données}
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file =} \StringTok{"ligue1\_2425.Rdata"}\NormalTok{) }
+
+\CommentTok{\# Pour récupérer le nombre de but du PSG : }
+
+\NormalTok{but\_psg }\OtherTok{\textless{}{-}}\NormalTok{ ligue1\_2425 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(Ext }\SpecialCharTok{==}\StringTok{"PSG"} \SpecialCharTok{|}\NormalTok{ Dom }\SpecialCharTok{==}\StringTok{"PSG"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{but\_psg =} \FunctionTok{case\_when}\NormalTok{(Dom }\SpecialCharTok{==}\StringTok{"PSG"}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Dom\_but,}
+                             \ConstantTok{TRUE}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Ext\_but)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pull}\NormalTok{(but\_psg) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.numeric}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  Comme nous n'avons qu'un échantillon de taille \(n = 5\), quelle
+  hypothèse supplémentaire devons-nous faire sur les \(X_i\) pour
+  pouvoir effectuer un des tests statistiques vu en cours?
+\item
+  En supposant ce qu'il faut (réponse à la question 2), mettez en place
+  un test au niveau de significativité de 5 \% pour tester si la moyenne
+  des buts par match du PSG diffère de celle de l'année dernière (2.38
+  buts). Effectuez ce test en utilisant la fonction adéquate et en le
+  faisant étape par étape (en décrivant la zone de rejet, calculant la
+  pvaleur etc)
+\item
+  Pouvons-nous conclure que l'équipe n'est pas meilleure ? Que
+  faudrait-il analyser en plus avant d'arriver à cette conclusion ?
+\end{enumerate}
+
+\hypertarget{puissance-du-test}{%
+\subsubsection{Puissance du test}\label{puissance-du-test}}
+
+L'entraîneur pense que la vraie nouvelle moyenne de buts est 3.5 et non
+2.38.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  S'il a raison, quelle est la puissance du test pour détecter cette
+  différence ? Autrement dit, quelle est la probabilité de mettre en
+  évidence, avec nos données, une différence de 1.12 entre la moyenne de
+  l'année dernière et l'espérance actuelle des buts marqués par le PSG ?
+\item
+  Actuellement, nous n'avons que 5 matchs, mais d'autres matchs seront
+  joués au fur et à mesure. Comment la puissance du test évolue-t-elle
+  avec l'augmentation du nombre de matchs disponibles (augmente,
+  diminue, reste inchangée) ?
+\item
+  Combien de matchs du PSG (après août 2024) faudrait-il pour mettre en
+  évidence cette différence ( de 1.12) avec une puissance de 90 \% ?
+\item
+  Tracez une courbe représentant la puissance du test en fonction du
+  nombre de matchs disponibles.
+\item
+  L'entraîneur pense finalement que la vraie nouvelle moyenne de buts
+  est de 3, et non 3.5. Cela change-t-il la puissance du test ? Si oui,
+  comment ? Recalculez-la.
+\item
+  Tracez la puissance du test en fonction de l'écart entre l'ancienne
+  moyenne et la nouvelle moyenne. Par exemple, si la nouvelle moyenne
+  est de 3, l'écart est de 0.62; si elle est de 3.5, l'écart est de 1.12
+  etc. Calculer là pour des écarts allant de 0.2 à 4.
+\end{enumerate}
+
+\hypertarget{proba-de-gagner-psg}{%
+\subsection{Proba de gagner (PSG)}\label{proba-de-gagner-psg}}
+
+Finalement, l'entraîneur réfléchit. Ce qui l'intéresse réellement, c'est
+la probabilité de gagner un match. L'année dernière, le PSG a gagné 64\%
+de ses matchs. L'entraîneur souhaite montrer, avec un risque de 5 \%,
+que cette proportion est significativement plus élevée depuis août 2024.
+Réalisez le test.
+
+\hypertarget{ligue-1-nombre-de-but-toulouse}{%
+\subsection{Ligue 1: nombre de but
+(Toulouse)}\label{ligue-1-nombre-de-but-toulouse}}
+
+L'entraineur de Toulouse pense que son équipe marque significativement
+moins de but que l'année dernière. L'année dernière l'équipe marquait
+1.23 buts par match en moyenne. En supposant la normalité du nombre de
+buts marqués par match, réalisez un test au niveau 5\% pour répondre à
+l'entraineur.
+
+L'entraineur pense que la nouvelle espérance de but de l'équipe de
+Toulouse est de 0.9. Calculer la puissance du test pour mettre en
+évidence une telle différence.
+
+\end{document}

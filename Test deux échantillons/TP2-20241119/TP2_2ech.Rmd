@@ -1,0 +1,229 @@
+---
+title: "TP 2 : echantillon"
+author: "Diego CASAS BARCENAS - Leo Jean UNITE"
+date: "2024-11-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F)
+```
+
+*Instructions*: Un compte-rendu du TP rédigé sous la forme d'un fichier pdf est à rendre par binôme d'étudiants. Vous devrez déposer votre compte rendu sous moodle. Chaque binôme remettra un document pdf ayant pour nom \texttt{$nomsetudiants\_tptest.pdf$} avant le 17 décembre.
+
+## Exercice 1
+
+L'objectif de cet exercice est d'utiliser des tests statistiques pour comparer différents aliments en fonction d'indicateurs relatifs aux impacts environnementaux de leur production agricole.
+
+Nous allons travailler sous R avec des données extraites de la base de données Agribalyse®. Agribalyse® est une base de données publique française qui fournit des informations sur les impacts environnementaux des produits agricoles et alimentaires. Pour en savoir plus, vous pouvez télécharger la documentation à l'adresse suivante : \url{https://doc.agribalyse.fr/documentation/acces-donnees}.
+
+Le fichier Agri_conv_TP.xlsx sur lequel nous allons travailler dans ce TP a été réalisé à partir des données extraites du tableur pour les produits agricoles bruts conventionnels (à la sortie de la ferme) de la base de données Agribalyse 3.1. Vous trouverez plus d'informations sur la modification des noms des variables et la préparation des données dans l'onglet "Info" du fichier Agri_conv_TP.xlsx. Ce fichier a été élaboré par Julie Charles lors de son stage de BUT SD, en deuxième année.
+
+Nous disposons ici de valeurs de consommation en CO2 (ou équivalent) par kg pour 258 aliments. De plus, pour chacun de ces aliments, nous avons les informations suivantes :
+
+-   Catégorie : S'agit-il d'un produit d'origine animale ou végétale ?
+-   Groupe : Quel est le sous-groupe du produit (par exemple, pour les produits animaux : bœuf, mouton, etc.) ?
+
+0.  Charger les données *Agri_conv_TP.csv*.
+
+```{r packages, include=FALSE}
+packages <- c("dplyr", "readxl", "ggplot2")
+                
+install_if_needed <- function(pkg) {                
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+  }
+  library(pkg, character.only = TRUE)
+}
+
+lapply(packages, install_if_needed)
+```
+
+```{r import}
+data <- read_excel("Agri_conv_TP.xlsx")
+print(data)
+```
+
+1.  On s'interesse au Co2_eq. Faire une étude réprésentation univariée de cette variable.
+
+```{r AnalyseUnivariée}
+stat <- data %>% 
+  summarise(
+    "NB Quantité"=n(),
+    min(Co2_eq),
+    max(Co2_eq),
+    mean(Co2_eq),
+    median(Co2_eq),
+    EcartType = sd(Co2_eq)
+  )
+print(stat)
+
+cat("test", min(stat)) # Rediger un texte dans le code.
+```
+
+2.  On s'intéresse ici au lien entre la catégorie de produit (animale ou végétale) et le Co2.
+
+```{r Analyse Categorie}
+Animal <- data %>% 
+  group_by(Categorie) %>%
+  filter(Categorie == "Animal production") %>% 
+  summarise(
+    "NB Quantité"=n(),
+    min(Co2_eq),
+    max(Co2_eq),
+    mean(Co2_eq),
+    median(Co2_eq),
+    EcartType = sd(Co2_eq)
+  )
+print(Animal)
+
+Plantes <- data %>% 
+  group_by(Categorie) %>%
+  filter(Categorie == "Plant production") %>% 
+  summarise(
+    "NB Quantité"=n(),
+    min(Co2_eq),
+    max(Co2_eq),
+    mean(Co2_eq),
+    median(Co2_eq),
+    EcartType = sd(Co2_eq)
+  )
+print(Plantes)
+```
+
+a.  Etudier de manière descriptive le lien entre la variable catégorie et le Co2 (avec un graphique pertinent)
+
+```{r}
+ggplot(data, aes(x = Categorie, y = Co2_eq))+
+  geom_boxplot()
+
+cat("En vue des résultats obtenus, l'impacte de CO2 est plus importante chez les animaux, en particulier à cause des flatulence animale.")
+```
+
+b.  On veut maintenant tester si la moyenne de Co2 émis est la même pour les aliments animaux et les aliments végétaux. Préciser dans quelle situation vous vous trouvez (taille de l'échantillon, normalité égalité des variances,...). Puis faites le test et concluez.
+
+```{r}
+    afood <- data %>% 
+      select(Categorie, Groupe, Co2_eq) %>% 
+      group_by(Groupe) %>% 
+      filter(Categorie == "Animal production") %>% 
+      summarise(
+        AniMoy = mean(Co2_eq)
+      )
+
+    vfood <- data %>% 
+      select(Categorie, Groupe, Co2_eq) %>% 
+      group_by(Categorie) %>% 
+      filter(Categorie == "Plant production") %>% 
+      summarise(
+        VegMoy = mean(Co2_eq)
+      )
+
+    print(afood)
+    print(vfood)
+
+    cat("La moyenne de CO2 pour les aliments animaux est de", mean(afood$AniMoy),"et pour les aliments végétaux est de", mean(vfood$VegMoy))
+```
+
+c.  Si on voulait montrer que les produits animaux ont une espérance plus élevée que les produits végétaux que faudrait il changer (refaites la question précédente dans ce sens). Faites une conclusion.
+
+```{r}
+# Extraire les données pour les deux catégories
+animal_data <- data %>% 
+  filter(Categorie == "Animal production") %>% 
+  pull(Co2_eq)
+
+plant_data <- data %>% 
+  filter(Categorie == "Plant production") %>% 
+  pull(Co2_eq)
+
+# Comparer les moyennes avec un test t
+test_result <- t.test(animal_data, plant_data, alternative = "greater")
+
+# Afficher les résultats
+cat("Moyenne CO2 aliments animaux :", mean(animal_data), "\n")
+cat("Moyenne CO2 aliments végétaux :", mean(plant_data), "\n")
+print(test_result)
+
+# Conclusion
+if (test_result$p.value < 0.05) {
+  cat("Conclusion : On a pas mis en evidence qu'il y a pas de difference entre la moy de Co2 anim et la moy de Co2 vege, alors on rejette H0.
+      Les produits animaux ont une émission de CO2 moyenne significativement plus élevée que les produits végétaux (p =", test_result$p.value, ").\n")
+} else {
+  cat("Conclusion : On a mis en evidence qu'il y a pas de difference entre la moy de Co2 anim et la moy de Co2 vege, alors on rejette pas H0")
+}
+
+```
+
+3.  On veut mettre en évidence au risque 5% que la proportion d'aliment végétal qui nécessitent plus d'un kilo d'équivalent CO2 pour un kilo de production est inférieur chez les végétaux que chez les animaux. Faites le test et donner la conclusion adéquate.
+
+```{r}
+# Calculer les proportions
+animal_high_co2 <- data %>% 
+  filter(Categorie == "Animal production") %>% 
+  summarise(proportion = mean(Co2_eq > 1)) %>% 
+  pull(proportion)
+
+plant_high_co2 <- data %>% 
+  filter(Categorie == "Plant production") %>% 
+  summarise(proportion = mean(Co2_eq > 1)) %>% 
+  pull(proportion)
+
+# Préparer les données pour le test
+animal_count <- data %>% filter(Categorie == "Animal production") %>% summarise(n = n()) %>% pull(n)
+plant_count <- data %>% filter(Categorie == "Plant production") %>% summarise(n = n()) %>% pull(n)
+
+animal_success <- animal_high_co2 * animal_count
+plant_success <- plant_high_co2 * plant_count
+
+# Test de proportion
+prop_test <- prop.test(
+  x = c(animal_success, plant_success), 
+  n = c(animal_count, plant_count), 
+  alternative = "greater"
+)
+
+# Afficher les résultats
+cat("Proportion CO2 > 1 pour animaux :", animal_high_co2, "\n")
+cat("Proportion CO2 > 1 pour végétaux :", plant_high_co2, "\n")
+print(prop_test)
+
+# Conclusion
+if (prop_test$p.value < 0.05) {
+  cat("Conclusion : La proportion d'aliments végétaux émettant plus de 1 kg CO2 est significativement inférieure à celle des produits animaux (p =", prop_test$p.value, ").\n")
+} else {
+  cat("Conclusion : Pas de différence significative au niveau de 5%.\n")
+}
+```
+
+## Exercice 2 : l'amour ouf fait le buzz.
+
+L'amour Ouf a été décrit comme très populaire auprès des 15-25 ans. Afin d'étudier ce phénomène, l'Institut Vertigo (un institut d'études spécialisé dans la recherche marketing pour le marché des loisirs) a mené une enquête sur l'âge des spectateurs à la sortie de certains films en 2024. Les résultats obtenus sont les suivants :
+
+```{r}
+data.frame(Film = c( "Amour Ouf", "Dead_pool","Dune2","Monte_Cristo", "Emilia_Perez"), Age_15_25= c(0.29,0.27,0.25,0.2,0.11)*2000 , Age_Autres = (1-c(0.29,0.27,0.25,0.2,0.11))*2000 )
+```
+
+1.  Au risque de 5%, pouvez-vous dire que la proportion de 15-25 ans allant voir un film varie en fonction du film ?
+
+    ```{r}
+
+    ```
+
+2.  Au risque de 5%, pouvez-vous dire que la proportion de spectateurs âgés de 15-25 ans ayant vu "Amour Ouf" est significativement supérieure à celle des autres films étudiés (tous films confondus) ?
+
+    ```{r}
+
+    ```
+
+3.  En 2024, 20% des spectateurs de cinéma ont entre 15 et 25 ans. a. Si 20% des spectateurs de "Amour Ouf" avaient eu entre 15 et 25 ans, combien aurait-on observé théoriquement de personnes de cette tranche d'âge parmi les spectateurs interrogés ayant vu ce film ?
+
+    ```{r}
+
+    ```
+
+4.  Proposez un test permettant de comparer les effectifs observés dans la salle de "Amour Ouf" à l'effectif théorique si 20% des spectateurs avaient eu entre 15 et 25 ans (test du chi carré d'adéquation à une loi).
+
+    ```{r}
+
+    ```
